@@ -12,6 +12,8 @@ namespace GeekShopping.ProductApi.AutoMapper
             {
                 config.CreateMap<ProductVO, Product>().ReverseMap();
             });
+
+            return mappingConfig;
         }
     }
 }

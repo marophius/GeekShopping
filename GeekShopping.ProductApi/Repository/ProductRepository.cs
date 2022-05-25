@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using GeekShopping.ProductApi.Models;
 using GeekShopping.ProductApi.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace GeekShopping.ProductApi.Repository
 {
@@ -14,29 +16,46 @@ namespace GeekShopping.ProductApi.Repository
             _mapper = mapper;
         }
 
-        public Task<ProductVO> Create(ProductVO productVO)
+        public async Task<ProductVO> Create(ProductVO productVO)
         {
-            throw new NotImplementedException();
+            Product product = _mapper.Map<Product>(productVO);
+            await _dataContext.Products.AddAsync(product);
+            await _dataContext.SaveChangesAsync();
+            return _mapper.Map<ProductVO>(product);
         }
 
-        public Task<bool> Delete(long id)
+        public async Task<bool> Delete(long id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Product product = await _dataContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+                if (product == null) return false;
+                _dataContext.Products.Remove(product);
+                await _dataContext.SaveChangesAsync();
+                return true;
+
+            }catch (Exception ex)
+            {
+                return false;
+            }
         }
 
-        public Task<ProductVO> GetById(long id)
+        public async Task<ProductVO> GetById(long id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ProductVO>(await _dataContext.Products.FirstOrDefaultAsync(x => x.Id == id));
         }
 
-        public Task<IEnumerable<ProductVO>> GetAll()
+        public async Task<IEnumerable<ProductVO>> GetAll()
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<ProductVO>>(await _dataContext.Products.ToListAsync());
         }
 
-        public Task<ProductVO> Update(ProductVO productVO)
+        public async Task<ProductVO> Update(ProductVO productVO)
         {
-            throw new NotImplementedException();
+            Product product = _mapper.Map<Product>(productVO);
+            _dataContext.Products.Update(product);
+            await _dataContext.SaveChangesAsync();
+            return _mapper.Map<ProductVO>(product);
         }
     }
 }
