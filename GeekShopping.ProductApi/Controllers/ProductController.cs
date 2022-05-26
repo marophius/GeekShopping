@@ -37,7 +37,7 @@ namespace GeekShopping.ProductApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProductVO>> Create(ProductVO product)
+        public async Task<ActionResult<ProductVO>> Create([FromBody]ProductVO product)
         {
             if (product == null) return BadRequest("Objeto inválido!");
 
@@ -47,7 +47,7 @@ namespace GeekShopping.ProductApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<ProductVO>> Update(ProductVO product)
+        public async Task<ActionResult<ProductVO>> Update([FromBody]ProductVO product)
         {
             if (product == null) return BadRequest("Objeto inválido!");
 
