@@ -37,6 +37,7 @@ namespace GeekShopping.ProductApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseHttpsRedirection();
 
             app.UseAuthorization();
 

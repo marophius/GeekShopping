@@ -15,7 +15,6 @@ namespace GeekShopping.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages();
             services.AddHttpClient<IProductService, ProductService>(c => c.BaseAddress = new Uri(Configuration["ServiceUrl:ProductApi"]));
         }
 
@@ -25,6 +24,7 @@ namespace GeekShopping.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
