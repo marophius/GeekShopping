@@ -1,5 +1,7 @@
 ﻿using GeekShopping.ProductApi.Repository;
+using GeekShopping.ProductApi.Utils;
 using GeekShopping.ProductApi.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +19,7 @@ namespace GeekShopping.ProductApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ProductVO>>> GetAll()
         {
             var products = await _productRepository.GetAll();
@@ -27,6 +30,7 @@ namespace GeekShopping.ProductApi.Controllers
         }
 
         [HttpGet("{id:long}")]
+        [Authorize]
         public async Task<ActionResult<ProductVO>> GetById(long id)
         {
             if (id == 0) return BadRequest("Identificador inválido!");
@@ -37,6 +41,7 @@ namespace GeekShopping.ProductApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<ProductVO>> Create([FromBody]ProductVO product)
         {
             if (product == null) return BadRequest("Objeto inválido!");
@@ -47,6 +52,7 @@ namespace GeekShopping.ProductApi.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<ProductVO>> Update([FromBody]ProductVO product)
         {
             if (product == null) return BadRequest("Objeto inválido!");
@@ -57,6 +63,7 @@ namespace GeekShopping.ProductApi.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = Role.Admin)]
         public async Task<ActionResult> Delete(long id)
         {
             var status = await _productRepository.Delete(id);
