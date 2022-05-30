@@ -30,7 +30,7 @@ namespace GeekShopping.ProductApi
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddAuthentication("Bearer")
-                .AddJwtBearer(options =>
+                .AddJwtBearer("Bearer",options =>
                 {
                     options.Authority = "https://localhost:4435";
                     options.TokenValidationParameters = new TokenValidationParameters
